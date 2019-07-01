@@ -877,14 +877,8 @@ class StarModel(object):
                 logging.error('Error loading chains from {}'.format(filename))
                 raise
         else:
-            #select out only walkers with > 0.15 acceptance fraction
-            ok = self.sampler.acceptance_fraction > 0.15
-
-            chain = self.sampler.chain[ok,:,:]
-            chain = chain.reshape((chain.shape[0]*chain.shape[1],
-                                        chain.shape[2]))
-
-            lnprob = self.sampler.lnprobability[ok, :].ravel()
+            chain = self.sampler.flatchain
+            lnprob = self.sampler.lnprobability.ravel()
 
         df = pd.DataFrame()
 
